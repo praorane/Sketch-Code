@@ -1,0 +1,87 @@
+<div class="map-view-root">
+    <div class="scroller overflow-both-off position-absolute container-widthheight100"
+         on-mouse-wheel
+         on-mouse-pan>
+        <map-view-host template-path = "hostLayoutTemplate.html"></map-view-host>
+    </div>
+</div>
+
+<script type="text/ng-template" id="hostLayoutTemplate.html">
+    <layout-view class="mapViewer"
+                 colo-data="mapController.colo"
+                 zoom-level="mapController.zoomLevel"
+                 is-loading-power="mapController.isLoadingPower"
+                 device-template="mapController.deviceTemplate"
+                 cool-aisle-template="mapController.coolAisleTemplate"
+                 property-group-template="'propertyGroupTemplate.html'"
+                 preliminary-demand-template="'preliminaryDemandTemplate.html'"
+                 final-demand-template="'finalDemandTemplate.html'"
+                 power-template="'powerTemplate.html'"
+                 visible-Overlays="mapController.visibleOverlays"
+                 selection-info="mapController.selectionInfo"
+                 initialize-layout-callback="mapController.onInitiaizeLayoutView()">
+    </layout-view>
+</script>
+
+<script type="text/ng-template" id="deviceLayoutTemplate.html">
+    <text text-anchor="middle" font-size="9" alignment-baseline="middle">
+        <tspan x="{{::tile.width * 0.5}}" dy="{{::tile.height * 0.7}}">MOR</tspan>
+    </text>
+</script>
+
+<script type="text/ng-template" id="powerTemplate.html">
+    <text text-anchor="middle" font-size="9" alignment-baseline="middle">
+        <tspan x="{{::tile.width * 0.5}}" dy="{{::tile.height * 0.7}}">{{::tile.power}}</tspan>
+    </text>
+</script>
+
+<script type="text/ng-template" id="coolAisleTemplate.html">
+    <path class="cold-aisle"
+          ng-attr-d="{{::layoutController.coldAislesPath}}"></path>
+</script>
+
+<script type="text/ng-template" id="propertyGroupTemplate.html">
+    <rect ng-attr-width="{{::group.width}}" ng-attr-height="{{::group.height}}"></rect>
+    <text text-anchor="start"
+          font-size="9" alignment-baseline="middle">
+        <tspan x="3px" y="9.5px">{{::group.label}}</tspan>
+    </text>
+</script>
+
+<script type="text/ng-template" id="preliminaryDemandTemplate.html">
+    <g ng-repeat="rectInfo in ::demand.rects" ng-attr-transform="translate({{::rectInfo.x}}, {{::rectInfo.y}})">
+        <rect class="preliminary-demand-group"
+              ng-attr-width="{{::rectInfo.width}}" ng-attr-height="{{::rectInfo.height}}"></rect>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="9.5px">Demand: {{::demand.demandId}}</tspan>
+        </text>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="18.5px">Order: {{::demand.orderId}}</tspan>
+        </text>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="27.5px">{{::demand.propertyGroupName | textEllipse}}</tspan>
+        </text>
+    </g>
+</script>
+
+<script type="text/ng-template" id="finalDemandTemplate.html">
+    <g ng-repeat="rectInfo in ::demand.rects" ng-attr-transform="translate({{::rectInfo.x}}, {{::rectInfo.y}})">
+        <rect class="final-demand-group"
+              ng-attr-width="{{::rectInfo.width}}" ng-attr-height="{{::rectInfo.height}}"></rect>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="9.5px">Demand: {{::demand.demandId}}</tspan>
+        </text>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="18.5px">Order: {{::demand.orderId}}</tspan>
+        </text>
+        <text text-anchor="start"
+              font-size="9" alignment-baseline="middle">
+            <tspan x="3px" y="27.5px">{{::demand.propertyGroupName | textEllipse}}</tspan>
+        </text>
+    </g>
+</script>

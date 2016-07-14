@@ -1,0 +1,36 @@
+﻿<div class="container-widthheight100 position-absolute" ng-controller="PlanningController as planningControl">
+    <!-- Left Panel -->
+    <div class="col-lg-6 col-md-6 col-sm-8 left-pane position-relative">
+        <div class="position-relative container-widthheight100">
+            <div class="progress-bar progress-medium planning-view-progress-bar"
+                 ng-if="planningControl.isLoading">
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+            </div>
+            <shared-Blade class="position-absolute container-widthheight100 blades-root"
+                          blades="planningControl.sharedBlades"></shared-Blade>
+        </div>
+    </div>
+
+    <!-- Reservations and Overlays dropdowns -->
+    <div class="col-lg-18 col-md-18 col-sm-16 right-pane p-t-sm display-flex-vertical">
+        <div class="flex-none" ng-include src="'App/planning/header-bar.template.html'"></div>
+        <br />
+        <!-- Inject mapview -->
+        <colocation-map template-path = "planningMapView.html" 
+                        is-selection-mode-enabled = "planningControl.isReservationDetailViewVisible"
+                        is-in-selection-mode= "planningControl.isSelectionToggleChecked"
+                        initialize-overlay-callback = "planningControl.getInitialViewOverlay()"
+                        class="flex-one position-relative"></colocation-map>
+    </div>
+
+    <!-- Notification Footer -->
+    <div notification></div>
+</div>
+
+<script type="text/ng-template" id="planningMapView.html">
+    <map-view class="mapContainer"></map-view>
+</script>

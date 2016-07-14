@@ -1,0 +1,67 @@
+﻿<div ng-controller="PortalViewController as portalViewController">
+    <colocation-map template-path="portalMapView.html"
+                    is-selection-mode-enabled = "false"
+                    initialize-overlay-callback="portalViewController.getInitialViewOverlay()"></colocation-map>
+</div>
+
+<script type="text/ng-template" id="portalMapView.html">
+    <div class="layoutFrameContainer portal-view">
+        <div ng-if="mapController.isLoadingDataCenterCatalog"
+             class="m-l-sm m-t-sm">
+            <div class="progress-ring inline-block">
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+            </div>
+            Loading DataCenter...
+        </div>
+
+        <!-- Colocation Dropdown -->
+        <div class="colo-picker"
+             ng-hide="mapController.isLoadingDataCenterCatalog">
+            <div class="row container-fluid">
+                <div class="m-h-sm dropdown dropdown-overlay">
+                    <button id="colo-dropdown-button"
+                            class="btn btn-dropdown dropdown-toggle transparent-background"
+                            type="button" data-toggle="dropdown"
+                            aria-haspopup="true" role="button" aria-expanded="false">
+                        <i class="glyph"></i>
+                        <span>{{mapController.currentColo.Name}}</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="colo-dropdown-button">
+                        <li ng-repeat="colo in mapController.dcColoInfo.Colocations">
+                            <a href="#/colocation/{{colo.Id}}/true">
+                                {{ colo.Name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mapContainer panning"
+             ng-hide="mapController.isLoadingDataCenterCatalog">
+            <div class="progress-bar progress-large" ng-if="mapController.isLoadingMapData">
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+                <div class="progress-circle"></div>
+            </div>
+            <!-- Inject mapview -->
+            <map-view></map-view>
+        </div>
+    </div>
+</script>
+
+<!-- Required for Tooltip -->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            template: '<div class="tooltip" role="tooltip"><div class="tooltip-inner"></div></div>'
+        });
+    });
+</script>

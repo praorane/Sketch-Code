@@ -1,0 +1,194 @@
+﻿
+<div class="pendingactions-container"
+     ng-show="!pendingActionsControl.showDemandDetail">
+    <div class="demandtype-container">
+        <br />
+        <div class="dropdown width-100 dropdown-overlay">
+            <button id="btn-append-to-body" class="btn btn-dropdown dropdown-toggle"
+                    type="button" data-toggle="dropdown"
+                    role="button" aria-haspopup="true" aria-expanded="false">
+                <span>
+                    {{pendingActionsControl.selectedDemandType.name}}
+                </span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="btn-append-to-body">
+                <li role="menuitem" ng-repeat="demandType in  pendingActionsControl.demandTypes" data-ng-click="pendingActionsControl.selectedDemandType = demandType;">
+                    <a href="#">
+                        {{demandType.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <br />
+        <br />
+        <div class="demand-searchbox">
+            <input type="text" ng-model="pendingActionsControl.demandFilter" placeholder="Keyword (e.g. ID)">
+        </div>
+    </div>
+    <div pending-actionslist></div>
+</div>
+
+<div class="container-widthheight100 position-absolute p-h-xxs display-flex-vertical" 
+     ng-show="pendingActionsControl.showDemandDetail">
+    <div class="back-to-listview-icon hyperlink-text cursor-pointer flex-none" 
+         ng-click="pendingActionsControl.exitDetailView();$event.stopPropagation();">
+        <i class="glyph glyph-arrow-left"></i>
+        <span class="text-underline">
+            Back to Pending Actions list
+        </span>
+    </div>
+    <div class="demand-details-container flex-one p-l-xxs display-flex-vertical panel-group"
+         ng-if="!pendingActionsControl.isDemandDetailLoading">
+        <table class="width-100 flex-none">
+            <tr>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        {{pendingActionsControl.selectedGroupRequest.DemandId}}
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            PID/DID
+                        </span>
+                    </div>
+                </td>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        {{pendingActionsControl.selectedGroupRequest.ReservationAction}}
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            REQUEST TYPE
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        NA
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            PROPERTY GROUP
+                        </span>
+                    </div>
+                </td>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        NA
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            EST RTEG DATE
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        NA
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            SCOPE
+                        </span>
+                    </div>
+                </td>
+                <td class="width-50">
+                    <div class="float-left text-bold">
+                        NA
+                    </div>
+                    <div class="clear-left float-left">
+                        <span class="text-bold text-size-12">
+                            ACTIVE TICKETS
+
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="flex-one display-flex-vertical">
+            <div class="pending-spc-approval background-pendingactions white-text flex-none">
+                <span ng-bind="pendingActionsControl.selectedGroupRequest.FulfillmentStatus | requestFulfillmentStatusDisplay">
+                    
+                </span>
+            </div>
+            <div class="btn-group flex-none p-l-xxxs">
+                <input type="button" class="btn btn-primary"
+                       value="Approve"
+                       ng-disabled="pendingActionsControl.disableApproveRequest()"
+                       ng-click="pendingActionsControl.approveRequest()" />
+                <input type="button" class="btn btn-secondary"
+                       value="Reject"
+                       ng-click="pendingActionsControl.rejectRequest()" />
+                <button type="button" class="glyph-button btn btn-secondary transparent-background"
+                       ng-click="pendingActionsControl.reportIssue()" >
+                    <i class="glyph glyph-emoji-2"></i>
+                </button>
+            </div>
+            <br/>
+            <div class="pending-spc-approval-list overflow-y table-responsive row  flex-one">
+                    <table class="text-align-center width-100 table table-striped col-xs-24">
+                        <tr>
+                            <th class="col-xs-6">Room</th>
+                            <th class="col-xs-6">Tiles</th>
+                            <th class="col-xs-12">Energy Details</th>
+                        </tr>
+                        <tr ng-repeat-start="reservation in pendingActionsControl.lstOfReservationsGroupByOrderId">
+                            <td class="cursor-pointer" colspan="3" ng-click="reservation.isExpanded = !reservation.isExpanded">
+                                <i ng-class="reservation.isExpanded ? 'glyph glyph-collapse':'glyph glyph-expand'"></i>
+                                Order: {{reservation.orderId}}
+                            </td>
+                        </tr>
+                        <tr ng-show="reservation.isExpanded"
+                            ng-repeat="rackDetail in reservation.orderReservations">
+                            <td class="col-xs-5">
+                                <span  class="text-align-center"
+                                       ng-bind="rackDetail.room"/>
+                            </td>
+
+                            <td class="col-xs-5"
+                                ng-click="pendingActionsControl.editTileDetails(rackDetail)">
+                                <span  class="text-align-center"
+                                       ng-bind="rackDetail.tileName"/>
+                            </td>
+                            <td class="col-xs-14 text-align-center">
+                                <span title="{{rackDetail.energyDetails}}"
+                                      ng-bind="rackDetail.energyDetails | limitTo: 15">
+                                </span>
+                                <button class="glyph-button cursor-pointer btn btn-secondary transparent-background no-margin-no-padding"
+                                        ng-if="rackDetail.tileName || rackDetail.room"
+                                        ng-disabled="reservation.disableClearOfTiles()"
+                                        ng-click="pendingActionsControl.resetRackDetail(rackDetail, reservation)">
+                                    <span class="glyph glyph-cancel pending-reservation-cancel-assignment"></span>
+                                </button>
+                                       
+                            </td>
+                        </tr>
+                        <tr ng-repeat-end ng-show="reservation.isExpanded">
+                            <td colspan="3">
+                                <div class="flex-none p-l-xxxs">
+                                    <input type="button"
+                                           class="btn btn-primary"
+                                           ng-click="pendingActionsControl.assignRacksToSelectedTiles(reservation)"
+                                           ng-disabled="reservation.disableAssignmentOfTiles()"
+                                           ng-if="pendingActionsControl.shouldShowAssignmentOfTiles"
+                                           value="Assign Selected Tiles" />
+                                    <input type="button" class="btn btn-secondary"
+                                           ng-disabled="reservation.disableClearOfTiles()"
+                                           value="Clear Assigned Tiles" 
+                                           ng-click="pendingActionsControl.clearReservation(reservation);"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,45 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+// _notifications.scss
+//  application wide notification/modal style definitions.
+
+.notification-container {
+    background-color: $default-foreground;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    border-top: 2px solid $default-state;
+    height: 10%;
+    overflow-y: auto;
+}
+
+.notification-animation {
+    -webkit-animation: seconds 1.0s forwards;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 5s;
+    animation: seconds 1.0s forwards;
+    animation-iteration-count: 1;
+    animation-delay: 5s;
+}
+
+@-webkit-keyframes seconds {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        left: -9999px;
+    }
+}
+
+@keyframes seconds {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        left: -9999px;
+    }
+}

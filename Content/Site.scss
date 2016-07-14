@@ -1,0 +1,232 @@
+﻿@import 'mixins/_animations';
+@import 'mixins/_commons';
+@import 'app/_colors';
+@import 'app/_overrides';
+@import 'component/_portal-view';
+@import 'component/_shared-blade';
+@import 'component/_map-view';
+@import 'component/_notifications';
+@import 'component/_modals';
+@import 'component/_app-frame';
+
+body {
+    color: $default-foreground;
+    padding-bottom: 20px;
+}
+
+a {
+    color: $hyperlink;
+}
+
+.no-decoration {
+    text-decoration: none;
+    color: $black-text-color !important;
+}
+
+.secondary-color {
+    color: $hyperlink;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.white-text {
+    color: $white-color !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.container-widthheight100 {
+    width: 100%;
+    height: 100%;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.display-flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.display-flex-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-none {
+    flex: none;
+}
+
+.flex-one {
+    flex: 1;
+}
+
+.display-block {
+    display: block;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+.text-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.width-50{
+    width: 50%;
+}
+
+.no-margin-no-padding {
+    margin: 0px;
+    padding: 0px;
+}
+
+.clear-left{
+    clear: left;
+}
+
+.gray-text {
+    color: gray !important;
+}
+
+.background-white {
+    background-color:white;
+}
+
+/* Make the button hover for the menu be a hand */
+.navbar-nav>li {
+    cursor: pointer;
+}
+
+.active-button {
+    background-color: $card-active-button-background;
+    color: $white-color;
+    border: 1px solid $card-active-button-background;
+    width: 45%;
+    height: 100%;
+    padding: 2%;
+}
+
+.disabled-button {
+    background-color: $card-inactive-button-background;
+    color: $card-form-control-border-color;
+    border: 1px solid $card-form-control-border-color;
+    width: 45%;
+    height: 100%;
+    padding: 2%;
+}
+
+.clear-button {
+    background-color: $white-color;
+    color: $default-state;
+    border: 1px solid $default-state;
+    width: 45%;
+    height: 100%;
+    padding: 1%;
+}
+
+.hyperlink-text {
+    color: $card-hyperlink-foreground;
+}
+
+.overflow-both-off {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.overflow-y {
+    overflow-y: auto;
+}
+
+.overflow-x {
+    overflow-x: auto;
+}
+
+.overflow-both {
+    overflow: auto;
+}
+
+.text-align-center {
+    text-align: center !important;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.list-style-none {
+    list-style: none;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.text-size-14 {
+    font-size: 14px;
+}
+
+.text-size-12 {
+    font-size: 12px;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-critical {
+    color: $critical-background;
+}
+
+
+.text-field-container {
+    position: relative;
+
+    .dropdown-menu {
+        width: 100%;
+        max-height: 430px;
+        overflow-y: auto;
+    }
+}
+
+/* Override the default button appearance of buttons with glyph icons.
+*/
+.glyph-button {
+    &.btn {
+        min-width: auto;
+    }
+}

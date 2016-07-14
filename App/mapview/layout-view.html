@@ -1,0 +1,107 @@
+﻿<svg ng-attr-width="{{layoutController.viewWidth}}" ng-attr-height="{{layoutController.viewHeight}}"
+        ng-attr-view-box="0 0 {{layoutController.viewWidth}} {{layoutController.viewHeight}}"
+        ng-mousemove="mouseMove($event)"
+        ng-mouseleave="mouseLeave($event)"
+        ng-click="mouseClick($event)">
+    <g class='zoomer' ng-attr-transform="scale({{layoutController.zoomLevel}})">
+
+        <!-- Draw the background guilde line and axis labels  -->
+        <g>
+            <path fill="none" stroke="rgb(0, 0, 0)" stroke-width="0.3"
+                    ng-attr-d="{{layoutController.guidelinesPath}}"></path>
+            <text ng-repeat="xLabel in layoutController.xLabels"
+                    ng-attr-x="{{::xLabel.x}}" ng-attr-y="{{::layoutController.yTopLabels}}"
+                    fill="rgb(0, 0, 0)"
+                    font-size="10" text-anchor="middle">
+                {{::xLabel.text}}
+            </text>
+            <text ng-repeat="xLabel in layoutController.xLabels"
+                    ng-attr-x="{{::xLabel.x}}" ng-attr-y="{{::layoutController.yBottomLabels + 10}}"
+                    fill="rgb(0, 0, 0)"
+                    font-size="10" text-anchor="middle">
+                {{::xLabel.text}}
+            </text>
+            <text ng-repeat="yLabel in layoutController.yLabels"
+                    ng-attr-x="{{::layoutController.xLeftLabels}}" ng-attr-y="{{::yLabel.y}}"
+                    fill="rgb(0, 0, 0)"
+                    font-size="10" text-anchor="end">
+                {{::yLabel.text}}
+            </text>
+            <text ng-repeat="yLabel in layoutController.yLabels"
+                    ng-attr-x="{{::layoutController.xRightLabels}}" ng-attr-y="{{::yLabel.y}}"
+                    fill="rgb(0, 0, 0)"
+                    font-size="10" text-anchor="start">
+                {{::yLabel.text}}
+            </text>
+        </g>
+
+        <!-- Draw tile space availability -->
+        <g>
+            <path class="available-tile" ng-attr-d="{{layoutController.availableTilesPath}}"></path>
+            <path class="reserved-tile" ng-attr-d="{{layoutController.reservedTilesPath}}"></path>
+            <path class="used-tile" ng-attr-d="{{layoutController.usedTilesPath}}"></path>
+            <path class="error-tile" ng-attr-d="{{layoutController.errorTilesPath}}"></path>
+        </g>
+
+        <!-- Draw device tiles -->
+        <g ng-include="::layoutController.deviceTemplate"
+           ng-if="layoutController.isDevicesOverlayVisible"
+           ng-repeat="tile in ::layoutController.deviceTiles"
+           ng-attr-transform="translate({{::tile.x}}, {{::tile.y}})"
+           >
+        </g>
+
+        <!-- Power -->
+        <g ng-if="layoutController.isPowerOverlayVisible">
+            <g ng-include="::layoutController.powerTemplate"
+               ng-repeat="tile in ::layoutController.deployedTileRectangles"
+               ng-attr-transform="translate({{::tile.x}}, {{::tile.y}})">
+            </g>
+            <g ng-include="::layoutController.powerTemplate"
+               ng-repeat="tile in ::layoutController.reservedTileRectangles"
+               ng-attr-transform="translate({{::tile.x}}, {{::tile.y}})">
+            </g>
+        </g>
+
+        <!-- Draw cold aisles in a single path to reduce the number of svg elements-->
+        <g ng-include="::layoutController.coolAisleTemplate"
+           ng-if="layoutController.isColdAislesVisible">
+        </g>
+
+        <!-- Property Groups -->
+        <g ng-include="::layoutController.propertyGroupTemplate"
+           ng-if="layoutController.isPropertyGroupsOverlayVisible"
+           ng-repeat="group in ::layoutController.propertyGroups"
+           ng-attr-transform="translate({{::group.x}}, {{::group.y}})"
+           ng-class="::group.label | filterPropertyGroupCSSClass">
+        </g>
+
+        <!-- Preliminary Demands -->
+        <g ng-include="::layoutController.preliminaryDemandTemplate"
+           ng-if="layoutController.isReservationDemandsOverlayVisible"
+           ng-repeat="demand in ::layoutController.preliminaryDemands">
+        </g>
+
+        <!-- Final Demands -->
+        <g ng-include="::layoutController.finalDemandTemplate"
+           ng-if="layoutController.isReservationDemandsOverlayVisible"
+           ng-repeat="demand in ::layoutController.finalDemands">
+        </g>
+
+        <!-- Tile Selector -->
+        <tile-selector></tile-selector>
+    </g>
+
+    <!-- Selection Rectangle -->
+    <g ng-if="!!tileSelectorController.selectionRect" class="tile-selection-rectangle">
+        <rect ng-attr-x="{{tileSelectorController.selectionRect.x}}"
+              ng-attr-y="{{tileSelectorController.selectionRect.y}}"
+              ng-attr-width="{{tileSelectorController.selectionRect.width}}"
+              ng-attr-height="{{tileSelectorController.selectionRect.height}}">
+        </rect>
+        <text ng-attr-x="{{::tileSelectorController.selectionRect.x}}"
+              ng-attr-y="{{tileSelectorController.selectionRect.y - 5}}">
+            {{tileSelectorController.selectedTiles.length | tileSelectionCount}}
+        </text>
+    </g>
+</svg>

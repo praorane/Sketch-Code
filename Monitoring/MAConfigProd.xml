@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MonitoringManagement version="1.0" timestamp="2014-11-18T00:00:00.000Z" eventVersion="9" namespace="MCIOProdFacilityPlanner">
+  <Imports>
+    <Import file="MonitoringStandardEvents.xml" />
+    <Import file="AzureSecurityPackMds.xml" />
+  </Imports>
+  <Accounts>
+    <Account moniker="MCIOMonitoringProdCUS" isDefault="true" autoKey="true"/>
+    <Account moniker="MCIOAuditProdCUS" autoKey="true" alias="AuditStore" />
+    <Account moniker="MCIOSecurityProdCUS" autoKey="true" alias="AzSecurityStore"/>
+  </Accounts>
+  <Management  eventVolume="Medium"  defaultRetentionInDays="90" >
+    <Identity>
+      <IdentityComponent name="Tenant">GetEnvironmentVariable("MONITORING_TENANT")</IdentityComponent>
+      <IdentityComponent name="Role">GetEnvironmentVariable("MONITORING_ROLE")</IdentityComponent>
+      <IdentityComponent name="Location">GetEnvironmentVariable("CLIENT_SERVICE_LOCATION")</IdentityComponent>
+      <IdentityComponent name="RoleInstance">GetEnvironmentVariable("MONITORING_ROLE_INSTANCE")</IdentityComponent>
+    </Identity>
+    <AgentResourceUsage  diskQuotaInMB="20000"/>
+  </Management>
+  <Events>
+    <CounterSets storeType="Local" mdmMonitoringAccount="MCIOProd">
+      <CounterSet eventName="CounterTable" sampleRateInSeconds="5" mdmNamespace="MCIOProdFacilityPlanner">
+        <!-- If namespace is ommitted, will default to PlatformMetrics -->
+        <!-- You can get a complete list of available counters from the command line via TypePerf.exe -->
+        <Counter>\Processor(_Total)\% Processor Time</Counter>
+        <Counter>\Process(_Total)\Working Set</Counter>
+        <Counter>\LogicalDisk(*)\% Free Space</Counter>
+        <Counter>\LogicalDisk(*)\% Disk Read Time</Counter>
+        <Counter>\LogicalDisk(*)\% Disk Write Time</Counter>
+        <Counter>\Memory\Available Bytes</Counter>
+        <Counter>\Memory\Committed Bytes</Counter>
+        <Counter>\Process(_Total)\Private Bytes</Counter>
+        <Counter>\Process(_Total)\Virtual Bytes</Counter>
+        <Counter>\Process(_Total)\Page File Bytes</Counter>
+        <Counter>\.NET CLR Memory(_Total)\Gen 0 heap size</Counter>
+        <Counter>\.NET CLR Memory(_Total)\Gen 1 heap size</Counter>
+        <Counter>\.NET CLR Memory(_Total)\Gen 2 heap size</Counter>
+        <Counter>\.NET CLR Memory(_Total)\Large Object Heap size</Counter>
+        <Counter>\.NET CLR Memory(_Total)\# Bytes in all Heaps</Counter>
+      </CounterSet>
+    </CounterSets>
+    <EtwProviders>
+      <!-- Capture the locally aggregated MDM events for debugability as well as the ability to publish them to Cosmos if desired -->
+      <EtwProvider guid="2F23A2A9-0DE7-4CB4-A778-FBDF5C1E7372" format="EventSource" storeType="Local" priority="Normal">
+        <DefaultEvent eventName="LocallyAggregatedMdmMetricsDefault" />
+        <Event id="3" eventName="DerivedInboundQoSEvent" />
+        <Event id="4" eventName="DerivedOutboundQoSEvent" />
+      </EtwProvider>
+    </EtwProviders>
+    <IfxEvents storeType="CentralBond" sessionName="traceSession">
+      <AdditionalHeaderFields>
+        <Field>RelatedActivityId</Field>
+      </AdditionalHeaderFields>
+      <Event id="Ifx.PartASchema/IfxBond.IfxMonitoringEvent" eventName="MonitoringEvent" />
+      <Event id="Ifx.PartASchema/Ifx.BaseOperationSchema/Ifx.OperationSchema" eventName="OperationEvent" />
+      <Event id="Ifx.PartASchema/Ifx.BaseOperationSchema/Ifx.QoSSchema" eventName="QoSEvent" />
+      <Event id="Ifx.TracePartASchema/Ifx.TraceSchema" eventName="TraceEvent" />
+    </IfxEvents>
+    <DerivedEvents>
+      <DerivedEvent source="CounterTable" eventName="MdmDerivedEvent" storeType="Local" duration="PT60S">
+        <!-- This derived event breaks out instance information for performance counters as separate dimensions. -->
+        <Query>
+          <![CDATA[  
+                let MdmAccount = GetEnvironmentVariable("MDM_ACCOUNT")  
+                let MdmNamespace = GetEnvironmentVariable("MDM_NAMESPACE")
+                let CounterCategory = RegexMatch(CounterName, "^\\([^\(\)\\]+)", 1)
+                let CounterInstance = RegexMatch(CounterName, "^\\([^\(\)\\]+)(?:\(([^\(\)]+)\))?", 2)
+                let CounterObject   = RegexMatch(CounterName, "^\\([^\(\)\\]+)(?:\(([^\(\)]+)\))?\\([^\\]+)$", 3)  
+                let CounterCategoryName = (CounterInstance != "") ? Concat("", CounterCategory, "(*)") : CounterCategory  
+                let CounterId = Concat("\\", "", CounterCategoryName, CounterObject)  
+                let Tenant = GetEnvironmentVariable("MONITORING_TENANT")   
+                let Role = GetEnvironmentVariable("MONITORING_ROLE")   
+                let RoleInstance = GetEnvironmentVariable("MONITORING_ROLE_INSTANCE")  
+                let Location = GetEnvironmentVariable("LOCATION")
+                let IsMetricSet = false  
+                if ((MdmAccount != "") && (MdmNamespace != "") && (CounterObject != ""))  
+                {  
+                  IsMetricSet = SetMdmMeasureMetric(MdmAccount, MdmNamespace, CounterId, CounterValue, "Instance", CounterInstance, "__Tenant", Tenant, "__Role", Role, "__RoleInstance", RoleInstance, "__Location", Location)  
+                }  
+          ]]>
+        </Query>
+      </DerivedEvent>
+      <DerivedEvent source="QoSEvent" eventName="DerivedInboundQosEvent" storeType="Local" duration="PT60S">
+        <!-- This derived event creates metrics from the qos event generated by attributing your controller class with [Instrumentation] -->
+        <Query>
+          <![CDATA[
+                where operationType == "ServiceApi"                  
+                groupby resourceType, operationName, resultType
+                let apiInvocations=Count()
+                let apiLatency=Average(durationMs)
+                let MdmAccount = GetEnvironmentVariable("MDM_ACCOUNT")  
+                let MdmNamespace = GetEnvironmentVariable("MDM_NAMESPACE")
+                let Location = GetEnvironmentVariable("LOCATION")
+                let IsMetricSet=false
+                let IsApiInvocationsMetricSet = SetMdmMeasureMetric(MdmAccount, MdmNamespace, "Inbound: API Invocations", apiInvocations, "__ResourceType", resourceType, "__OperationName", operationName, "__ResultType", resultType, "__Location", Location)
+                let IsApiLatencyMetricSet = SetMdmMeasureMetric(MdmAccount, MdmNamespace, "Inbound: API Latency", apiLatency, "__ResourceType", resourceType, "__OperationName", operationName, "__ResultType", resultType, "__Location", Location)
+                let IsMetricSet = IsApiInvocationsMetricSet && IsApiLatencyMetricSet
+               ]]>
+        </Query>
+      </DerivedEvent>
+      <DerivedEvent source="OperationEvent" eventName="DerivedOutboundQoSEvent" storeType="Local" duration="PT60S">
+        <!-- This derived event creates metrics from the operation event generated from using the HttpWebRequest.GetInstrumentedResponseAsync() method -->
+        <Query>
+          <![CDATA[
+                where operationType == "InternalCall"                  
+                groupby resourceType, operationName, resultType
+                let apiInvocations=Count()
+                let apiLatency=Average(durationMs)
+                let MdmAccount = GetEnvironmentVariable("MDM_ACCOUNT")  
+                let MdmNamespace = GetEnvironmentVariable("MDM_NAMESPACE")
+                let Location = GetEnvironmentVariable("LOCATION")
+                let IsMetricSet=false
+                let IsApiInvocationsMetricSet = SetMdmMeasureMetric(MdmAccount, MdmNamespace, "Outbound: Invocations", apiInvocations, "__ResourceType", resourceType, "__OperationName", operationName, "__ResultType", resultType, "__Location", Location)
+                let IsApiLatencyMetricSet = SetMdmMeasureMetric(MdmAccount, MdmNamespace, "Outbound: Latency", apiLatency, "__ResourceType", resourceType, "__OperationName", operationName, "__ResultType", resultType, "__Location", Location)
+                let IsMetricSet = IsApiInvocationsMetricSet && IsApiLatencyMetricSet
+               ]]>
+        </Query>
+      </DerivedEvent>
+    </DerivedEvents>
+    <Extensions>
+      <Extension extensionName="MetricsExtension">
+        <CommandLine><![CDATA[start.bat]]></CommandLine>
+      </Extension>
+    </Extensions>
+  </Events>
+  <EventStreamingAnnotations>
+    <!-- For QoSEvents, we send them to COSMOS and we include 'distributed tracing' which allows for correlation between events -->
+    <EventStreamingAnnotation name ="^.*QoSEvent$">
+      <Cosmos>
+        <Content>
+          <![CDATA[ <Config/>  ]]>
+        </Content>
+      </Cosmos>
+      <DistributedTracing>
+        <Content>
+          <![CDATA[<Config />]]>
+        </Content>
+      </DistributedTracing>
+    </EventStreamingAnnotation>
+    <!-- For TraceEvents, we add 'distributed tracing' which allows for correlation between trace events -->
+    <EventStreamingAnnotation name ="^.*TraceEvent$">
+      <DistributedTracing>
+        <Content>
+          <![CDATA[<Config />]]>
+        </Content>
+      </DistributedTracing>
+    </EventStreamingAnnotation>
+  </EventStreamingAnnotations>
+  <EnvelopeSchema>
+    <Field name="AppId">GetEnvironmentVariable("CLIENT_SERVICE_ID")</Field>
+    <Field name="AppVer">1</Field>
+    <Extension name="Cloud">
+      <Field name="Name">GetEnvironmentVariable("MONITORING_TENANT")</Field>
+      <Field name="Role">GetEnvironmentVariable("MONITORING_ROLE")</Field>
+      <Field name="RoleInstance">GetEnvironmentVariable("MONITORING_ROLE_INSTANCE")</Field>
+      <Field name="Environment">GetEnvironmentVariable("DOMAIN")</Field>
+      <Field name="Location">GetEnvironmentVariable("CLIENT_SERVICE_LOCATION")</Field>
+    </Extension>
+  </EnvelopeSchema>
+</MonitoringManagement>

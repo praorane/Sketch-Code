@@ -1,0 +1,24 @@
+<g xmlns="http://www.w3.org/2000/svg">
+    <!-- Assigned/Freed Tiles -->
+    <g class="request-tile-assignment" ng-class="rectInfo.isFreed ? 'released' : 'assigned'"
+       ng-repeat="rectInfo in tileSelectorController.renderedTiles"
+       ng-attr-transform="translate({{::rectInfo.x}}, {{::rectInfo.y}})">
+        <rect ng-attr-width="{{::rectInfo.width}}" ng-attr-height="{{::rectInfo.height}}"></rect>
+        <text>
+            <tspan x="3px" y="18.5px">Order: {{rectInfo.orderId}}</tspan>
+        </text>
+    </g>
+
+    <!-- 
+        Rack Selection
+        Note that this group has be on top of Assigned/Freed tiles group.
+        So don't change the order of g elements in this template.
+    -->
+    <g ng-if="tileSelectorController.selectedTiles.length !== 0"
+       ng-repeat="selectedTile in tileSelectorController.selectedTiles track by selectedTile.originalTile.Id"
+       ng-attr-transform="translate({{::selectedTile.x}}, {{::selectedTile.y}})">
+        <rect class="tile-selection-highlight"
+              ng-attr-width="{{::selectedTile.width}}" ng-attr-height="{{::selectedTile.height}}"></rect>
+    </g>
+</g>
+

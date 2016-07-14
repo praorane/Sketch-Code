@@ -1,0 +1,25 @@
+﻿<div class="notification-container white-text"
+     ng-if="notificationControl.notifications.length > 0"
+     ng-class="{'notification-animation': (notificationControl.notifications | filter:{type:'Error'}).length === 0}">
+
+    <div class="row" ng-repeat="notification in notificationControl.notifications track by $index">
+        <div class="col-xs-1 text-align-center">
+            <span ng-class="{'glyph glyph-report-hacked': notification.type === 'Error',
+                       'glyph glyph-warning': notification.type === 'Warning',
+                       'glyph glyph-info': notification.type === 'Information'}"></span>
+        </div>
+        <div class="col-xs-21">
+            <div class="text-bold">
+                {{notification.header}}
+            </div>
+            <div>
+                {{notification.message}}
+            </div>
+        </div>
+        <div class="col-xs-2"
+             ng-click="notificationControl.dismissNotification($index)"
+             ng-if="notification.type === 'Error'">
+            <span class="glyph glyph-clear float-right cursor-pointer"></span>
+        </div>
+    </div>
+</div>

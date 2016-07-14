@@ -1,0 +1,44 @@
+﻿<div class="demandlist-container">
+    <div class="demanlist-warning-container">
+        <span ng-if="!(pendingActionsControl.lstOfGroupRequests | filter : pendingActionsControl.filterPendingActions | filter : pendingActionsControl.demandFilter).length && !pendingActionsControl.isLoading && pendingActionsControl.lstOfGroupRequests.length > 0">
+            No results found matching your search.
+        </span>
+        <span ng-if="pendingActionsControl.lstOfGroupRequests.length === 0">
+            No pending actions.
+        </span>
+    </div>
+    <div class="demand-container"
+         ng-repeat="demand in pendingActionsControl.lstOfGroupRequests | filter : pendingActionsControl.filterPendingActions | filter : pendingActionsControl.demandFilter"
+         ng-if="demand.isVisible"
+         ng-click="pendingActionsControl.enterDetailView(demand)">
+
+        <div class="col-xs-8 demand-impact">
+            <div class="demand-order-count">
+                <div class="text-bold text-size-14"
+                     title="{{::demand.orderDescription}}">
+                    {{::demand.orderDescription}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 demand-details">
+            <span class="text-size-12"
+                  title="{{::demand.DemandId}} For {{::demand.PropertyGroupName}}">
+                {{::demand.DemandId}} For {{::demand.PropertyGroupName}}
+            </span>
+            <br>
+            <span class="text-size-12"
+                  title="{{::demand.ReservationAction}}">
+                  {{::demand.ReservationAction}}
+            </span>
+            <br />
+            <span class="text-size-12 text-critical"
+                  title="{{::demand.FulfillmentStatus | requestFulfillmentStatusDisplay}}">
+                  {{::demand.FulfillmentStatus | requestFulfillmentStatusDisplay}}
+            </span>
+        </div>
+        <div class="col-xs-4 demand-details-navigate">
+            <span class="demand-detail-arrow glyph glyph-chevron-right-2"></span>
+        </div>
+    </div>
+</div>

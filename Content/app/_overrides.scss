@@ -1,0 +1,40 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+//  _control-overrides.scss
+//  custom styles for common controls
+
+// Progress bar
+.progress-bar {
+    background-color: transparent; 
+    box-shadow: none;
+    -webkit-box-shadow: none;
+
+    .progress-circle {
+        @include animation(progress-bar-animation 3s infinite);
+    }
+}
+
+
+@include keyframes(progress-bar-animation) {
+    0% {
+        left: 0px;
+        @include animation-timing-function(ease-in);
+        opacity: 0;
+    }
+
+    30% {
+        left: 30%;
+        @include animation-timing-function(linear);
+        opacity: 1;
+    }
+
+    70% {
+        left: 70%;
+        @include animation-timing-function(ease-out);
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}

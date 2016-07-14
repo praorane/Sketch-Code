@@ -1,0 +1,250 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+//  _map-view.scss
+//  map view styles definitions.
+
+@import "../app/_colors";
+
+$default-tile-border-width: 0.5px;
+$highlighted-tile-border-width: 1.3px;
+$selected-tile-highlight-border-width: 4px;
+$reservation-group-border-width: 1px;
+$selection-rectangle-border-width: 1px;
+
+.portal-view {
+    &.layoutFrameContainer {
+        background-color: $map-background;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &>.progress-ring-container {
+        // Center this div horizontally
+        margin: 0 auto;
+    }
+
+    &>.colo-picker {
+        flex: none;
+        // the default winstrap .row class caused a negative right margin.
+        // Because of that, a horizontal scrollbar appears in the portal map view.
+        padding: 0px 10px 0px 0px;
+    }
+
+    &>.mapContainer {
+        flex: 1;
+    }
+
+    .map-view-root {
+        position: relative; 
+        width: 100%; 
+        height: 100%;
+    }
+}
+
+.panning {
+    overflow: hidden;
+}
+
+.banner-toolbar {
+    display: table;
+    background: $white-color;
+    width: 100%;
+}
+
+.banner-toolbar>li {
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.banner-toolbar.dropdown-details>li:not(:first-child) {
+    color: $black-color;
+}
+
+.injectedViewContainer > .mapContainer {
+    height: inherit;
+}
+
+// Map view svg overlay styles
+
+path.available-tile {
+    fill: $cell-background-for-empty-tile;
+    stroke-width: $default-tile-border-width;
+    stroke: $black-color;
+}
+
+path.reserved-tile {
+    fill: $cell-background-for-reserved-tile;
+    stroke-width: $default-tile-border-width;
+    stroke: $black-color;
+}
+
+path.used-tile {
+    fill: $cell-background-for-deployed;
+    stroke-width: $default-tile-border-width;
+    stroke: $black-color;
+}
+
+path.error-tile {
+    fill: $cell-background-for-error-tile;
+    stroke-width: $default-tile-border-width;
+    stroke: $black-color;
+}
+
+path.cold-aisle {
+    fill: $cell-background-for-cooling-tile;
+    stroke-width: 0px;
+}
+
+.property-group-azure {
+    &>rect {
+        fill: $cell-background-azure-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+    &>text {
+        fill: $white-color;
+    }
+}
+
+.property-group-office {
+    &>rect {
+        fill: $cell-background-office-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+    &>text {
+        fill: $white-color;
+    }
+}
+
+.property-group-dynamics {
+    &>rect {
+        fill: $cell-background-dynamics-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+.property-group-onedrive {
+    &>rect {
+        fill: $cell-background-onedrive-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+.property-group-sharepoint {
+    &>rect {
+        fill: $cell-background-sharepoint-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+.property-group-xbox {
+    &>rect {
+        fill: $cell-background-xbox-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+.property-group-exchange {
+    &>rect {
+        fill: $cell-background-exchange-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+    &>text {
+        fill: $white-color;
+    }
+}
+
+.property-group-cosmos {
+    &>rect {
+        fill: $cell-background-cosmos-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+.property-group-other {
+    &>rect {
+        fill: $cell-background-other-family;
+        stroke-width: $highlighted-tile-border-width;
+        stroke: $black-color;
+    }
+}
+
+rect.preliminary-demand-group {
+    fill: $cell-background-for-preliminary-reserved;
+    stroke-width: $reservation-group-border-width;
+    stroke: $black-color;
+}
+
+rect.final-demand-group {
+    fill: $cell-background-for-final-reserved;
+    stroke-width: $reservation-group-border-width;
+    stroke: $black-color;
+}
+
+rect.active-reservation {
+    fill: $cell-background-for-selected-tile;
+    stroke-width: $reservation-group-border-width;
+    stroke: $black-color;
+}
+
+.highlighted-tile > .tile-rect {
+    stroke-width: $highlighted-tile-border-width;
+}
+
+.request-tile-assignment {
+    rect {
+        stroke-width: $default-tile-border-width;
+        stroke: $black-color;
+    }
+
+    text {
+        font-size: 6.75pt;
+        alignment-baseline: middle;
+        text-anchor: start;
+    }
+
+    &.released {
+        rect {
+            fill: $cell-background-for-empty-tile;
+        }
+        text {
+            display: none;
+        }
+    }
+    &.assigned {
+        rect {
+            fill: $cell-background-for-selected-tile;
+        }
+    }
+}
+
+.tile-selection-rectangle {
+    rect {
+        fill: none;
+        stroke-width: $selection-rectangle-border-width;
+        stroke: $black-color;
+    }
+
+    text {
+        text-anchor: start;
+        font-size: 12pt;
+        alignment-baseline: middle;
+        font-weight: bold;
+    }
+}
+
+
+rect.tile-selection-highlight {
+    fill: none;
+    stroke-width: $selected-tile-highlight-border-width;
+    stroke: $selected-rack-border-color;
+}

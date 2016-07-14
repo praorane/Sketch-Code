@@ -1,0 +1,16 @@
+﻿<div class="panel-group height-100 display-flex-vertical" id="{{panelid}}">
+    <div class="panel panel-default card-background display-flex-vertical" ng-repeat-start="item in blades" ng-class="item.collapsed ? 'flex-none' : 'flex-one'">
+        <div class="leftpanel-header white-text cursor-pointer {{item.headerBackgroundClass}} flex-none" ng-click="toggleCollapsedStates(item);">
+            <div class="header-icon float-left text-align-center" ng-class="item.headerIconBackground"><i ng-class="{{item.bladeIcon}}"></i></div>
+            <div class="header-text float-left">{{item.title}}</div>
+            <div class="float-left text-align-center"><span ng-class="item.collapsed ? 'glyph glyph-chevron-down' : 'glyph glyph-chevron-up'"></span></div>
+        </div>
+
+        <div class="panel-collapse flex-one overflow-y position-relative" ng-class="item.collapsed ? 'collapse':'toggle'">
+            <div blade-content template-path="{{item.contentUrl}}" class="sharedblade-content">
+            </div>
+        </div>
+    </div>
+    <div ng-repeat-end></div>
+</div>
+

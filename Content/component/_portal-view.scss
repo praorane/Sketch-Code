@@ -1,0 +1,34 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+
+@import "../app/_colors";
+
+
+/* Add vertical bars between info sections */
+.portal-view-info-banner>li:not(:last-child) {
+    border-right: 2px solid lightgray;
+    padding-right: 40px;
+}
+
+/* Add vertical bars between info sections */
+.portal-view-info-banner>li:not(:first-child) {
+    padding-left: 40px;
+}
+
+/* Make small text appear to be in background*/
+.portal-view-info-banner>li>small {
+    color: $small-text-color;
+}
+
+/* Push contents on header to right without using real *strap container */
+.portal-view-heading-container {
+    padding-left: 50px;
+}
+
+/* Add spacing between info sections and vertical bars */
+.portal-view-heading-container>li:not(:first-child) {
+    padding-left: 40px;
+}
+
+.glyph-info.small-blue { // for glyphicon
+    color: $icon-color;
+}

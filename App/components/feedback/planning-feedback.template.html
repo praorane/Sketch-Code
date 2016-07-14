@@ -1,0 +1,51 @@
+﻿<div>
+    <h3 class="modal-header">Report Problem</h3>
+    <div class="modal-body">
+        <div>
+            <div>
+                <label>Data Center id:&nbsp;</label><span>{{::planningFeedbackController.dcId}}</span>
+            </div>
+            <div>
+                <label>Data Center Name:&nbsp;</label><span>{{::planningFeedbackController.dcName}}</span>
+            </div>
+            <div>
+                <label>Colocation id:&nbsp;</label><span>{{::planningFeedbackController.coloId}}</span>
+            </div>
+            <div>
+                <label>Colocationr Name:&nbsp;</label><span>{{::planningFeedbackController.coloName}}</span>
+            </div>
+            <div>
+                <label>Demand id:&nbsp;</label><span>{{::planningFeedbackController.demandId}}</span>
+            </div>
+            <div>
+                <label>Group Name:&nbsp;</label><span>{{::planningFeedbackController.groupId}}</span>
+            </div>
+        </div>
+        <div class="m-t-xxs">
+            <label class="display-block">Reason:</label>
+            <select class="width-100" ng-model="planningFeedbackController.selectedReason">
+                <option ng-repeat="issue in ::planningFeedbackController.issues"
+                        value="{{::issue.Code}}">
+                    {{::issue.Reason}}
+                </option>
+            </select>
+        </div>
+        <div class="m-t-xxs">
+            <label class="display-block" id="labelDescription">Description:</label>
+            <div class="width-100">
+                <textarea placeholder="Enter problem details and repo steps to help us investigate..."
+                          class="feedback-textarea"
+                          ng-model="planningFeedbackController.message"
+                          rows="4" cols="50" aria-labelledby="labelDescription"></textarea>
+            </div>
+        </div>
+        <div class="btn-group">
+            <input type="button" class="btn btn-primary"
+                   ng-disabled="planningFeedbackController.isSubmitDisabled"
+                   value="Submit" ng-click="planningFeedbackController.submit()" />
+            <input type="button" class="btn btn-secondary"
+                   ng-click="planningFeedbackController.cancel()"
+                   value="Cancel" />
+        </div>
+    </div>
+</div>

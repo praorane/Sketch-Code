@@ -1,0 +1,50 @@
+﻿<div class="row">
+    <div class="nav">
+        <ul>
+            <li class="dropdown dropdown-overlay">
+                <button id="view-mode-button"
+                        class="btn btn-dropdown dropdown-toggle transparent-background"
+                        type="button" data-toggle="dropdown"
+                        aria-haspopup="true" role="button" aria-expanded="false">
+                    <i class="glyph glyph-view-all"></i>
+                    <span>{{planningControl.currentView.name}}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="view-mode-button">
+                    <li ng-repeat="view in planningControl.views">
+                        <a href="#" ng-click="planningControl.switchView(view.name)">{{view.name}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown dropdown-overlay">
+                <button id="overlay-button"
+                        class="btn btn-dropdown dropdown-toggle transparent-background"
+                        type="button" data-toggle="dropdown"
+                        aria-haspopup="true" role="button" aria-expanded="false">
+                    <i class="glyph glyph-view-all"></i>
+                    <span>Overlays</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="overlay-button">
+                    <li ng-repeat="filter in planningControl.overlayFilters">
+                        <a href="#" ng-click="planningControl.toggleFilter(filter.name)">
+                            <i class="glyph glyph-checkmark-2" ng-if="filter.isChecked"></i>
+                            {{filter.name}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown dropdown-overlay" ng-show="planningControl.isReservationDetailViewVisible">
+                <button type="button"
+                        id="seletion-mode-toggle"
+                        autocomplete="off"
+                        class="btn dropdown-toggle transparent-background"
+                        data-toggle="button"
+                        aria-pressed="false"
+                        ng-click="planningControl.toggleSelectionMode($event)">
+                    Tile selection mode
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>

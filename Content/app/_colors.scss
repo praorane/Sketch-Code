@@ -1,0 +1,88 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+//  _colors.scss
+//  All app specific color definitions
+
+// Facility Viewer
+$default-foreground:                                #1a1a1a;
+$black-color:                                       black;
+$white-color:                                       #ffffff;
+$black-text-color:                                  $black-color;
+$map-background:                                    #f4f4f4;
+$left-panel-background:                             #f9f9f9;
+$hyperlink:                                         #006486;
+$disabled-background:                               #e6e6e6;
+$disabled-foreground:                               #ffffff;
+$icon-color:                                        #0072c9;
+$critical-background:                               #f03a17;
+$near-critical-background:                          #ffc83d;
+$perfect-health-background:                         #13a10e;
+$default-state:                                     #0072c9;
+$small-text-color:                                  gray;
+$selected-rack-border-color:                        rgba(0, 0, 0, 0.6);
+
+// Common Controls
+$control-foreground:                                $black-text-color;
+$dropdown-menu-background:                          $white-color;
+$dropdown-menu-open-border-color:                   #dddddd;
+
+// Facility Viewer - Cards
+$card-form-background:                              #f4f4f4;
+$card-form-control-border-color:                    #888888;
+$card-hyperlink-foreground:                         $hyperlink;
+$card-disabled-background:                          $disabled-background;
+$card-disabled-foreground:                          $disabled-foreground;
+$card-header-icon-color:                            #ffffff;
+$card-active-button-background:                     #006486;
+$card-inactive-button-background:                   #f4f4f4;
+
+// Facility Viewer - Cards Headers
+$card-header-background-for-pending-actions:        #ab0000;
+$card-header-icon-background-for-pending-actions:   #750b1c;
+$card-header-background-for-dc-picker:              #0027B4;
+$card-header-icon-background-for-dc-picker:         #00188f;
+$card-header-background-for-reservations:           #7160E8;
+$card-header-icon-background-for-reservations:      #5a4ebc;
+$card-header-background-for-power-ups:              #f03a17;
+$card-header-icon-background-for-power-ups:         #da3801;
+$card-header-background-for-cooling:                #008cf2;
+$card-header-icon-background-for-cooling:           #0099bc;
+$card-header-background-for-networking:             #4f4bd9;
+$card-header-icon-background-for-networking:        #413eb3;
+$card-header-background-for-discretes:              #886ce4;
+$card-header-icon-background-for-discretes:         #735bc1;
+
+// Facility Viewer - Cells
+$cell-border:                                       #d4d4d4;
+$cell-background-for-empty-tile:                    #FFFFFF;
+$cell-foreground-for-empty-tile:                    $default-foreground;
+$cell-background-for-reserved-tile:                 #faff8b;
+$cell-foreground-for-reserved-tile:                 $default-foreground;
+$cell-background-for-preliminary-reserved:          #FF8C00;
+$cell-foreground-for-preliminary-reserved:          $default-foreground;
+$cell-background-for-final-reserved:                #1B8841;
+$cell-foreground-for-final-reserved:                #ffffff;
+$cell-background-for-deployed:                      #146A14;
+$cell-foreground-for-deployed:                      #ffffff;
+$cell-background-for-error-tile:                    pink;       // Make those tiles really standing out
+$cell-foreground-for-error-tile:                    $default-foreground;
+$cell-background-for-discretes:                     #5c2e91;
+$cell-foreground-for-discretes:                     #ffffff;
+$cell-background-for-selected-tile:                 #fff100;
+$cell-foreground-for-selected-tile:                 $default-foreground;
+$cell-background-for-infrastructure-support:        #4a5459;
+$cell-foreground-for-infrastructure-support:        #ffffff;
+$cell-background-for-network-mor:                   #7d9d95;
+$cell-foreground-for-network-mor:                   #ffffff;
+$cell-background-for-cooling-tile:                  rgba(0, 140, 242, 0.4);
+$cell-foreground-for-cooling-tile:                  $default-foreground;
+
+// Facility Viewer - Property Groups
+$cell-background-azure-family:                       #0027B4;
+$cell-background-office-family:                      #A52613;
+$cell-background-dynamics-family:                    #004EBC;
+$cell-background-onedrive-family:                    #006F94;
+$cell-background-sharepoint-family:                  #E81123;
+$cell-background-xbox-family:                        #107C10;
+$cell-background-exchange-family:                    #2E74B5;
+$cell-background-cosmos-family:                      #5C2E91;
+$cell-background-other-family:                       #D4D4D4;

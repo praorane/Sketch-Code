@@ -1,0 +1,328 @@
+﻿//  Copyright (c) Microsoft Corporation. All rights reserved
+//  _shared-blade.scss
+//  Left panel styles definitions.
+
+@import "../app/_colors";
+@import '../mixins/_commons';
+
+.background-pendingactions {
+    background-color: $card-header-background-for-pending-actions !important;
+}
+
+.headericon-background-pendingactions {
+    background-color: $card-header-icon-background-for-pending-actions;
+}
+
+.background-dcpicker {
+    background-color: $card-header-background-for-dc-picker !important;
+}
+
+.headericon-background-dcpicker {
+    background-color: $card-header-icon-background-for-dc-picker;
+}
+
+.background-power {
+    background-color: $card-header-background-for-power-ups !important;
+}
+
+.headericon-background-power {
+    background-color: $card-header-icon-background-for-power-ups;
+}
+
+.leftpanel-header {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+
+    > div > span {
+        text-align: center;
+    }
+}
+
+.header-icon {
+    width: 10%;
+}
+
+.header-text {
+    width: 85%;
+    padding-left: 5%;
+}
+
+.card-background {
+    background-color: $card-form-background;
+}
+
+.leftPanelContainer {
+    height: inherit;
+}
+
+.sharedblade-content {
+    min-height: 300px;
+}
+
+.metro-datacenter-container {
+    width: 70%;
+    margin-left: 15%;
+
+    > div > input[type=text]:focus {
+        outline: none !important;
+    }
+
+    .btn-primary {
+        background-color: $card-active-button-background;
+    }
+    .btn-secondary {
+        background-color: $white-color;
+    }
+}
+
+.colo-list-position {
+    margin-top: 10% !important;
+}
+
+.demandtype-container {
+    width: 70%;
+    height: 20%;
+    margin-left: 15%;
+
+    > div > button {
+        min-width: 100% !important;
+    }
+}
+
+.demanlist-warning-container {
+    margin-left: 12%;
+}
+
+.demand-searchbox {
+    height: 35px;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+
+    > input[type=text] {
+        width: 100%;
+        min-width: 100% !important;
+        position: absolute;
+        font-size: 12px;
+        font-style: italic;
+        height: 33px;
+        padding: 4px;
+
+        &:focus {
+            outline: none !important;
+        }
+    }
+}
+
+.pendingactions-container {
+    height: inherit;
+    width: 100%;
+}
+
+.demandlist-container {
+    height: 80%;
+    width: 90%;
+    margin-left: 4%;
+}
+
+.demand-container {
+    height: 100px;
+    cursor: pointer;
+    clear: both;
+    background-color: $white-color;
+    border-bottom: 2px solid $card-form-background;
+}
+
+.demand-impact {
+    height: 100%;
+    padding: 10px;
+    background-color: $card-form-background;
+    border: 2px solid $white-color;
+    display: table;
+}
+
+.demand-order-count {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.demand-details {
+    height: 100%;
+    padding: 4%;
+}
+
+.demand-details-navigate {
+    height: 25%;
+}
+
+.demand-detail-arrow {
+    margin-top: 80%;
+}
+
+.back-to-listview-icon {
+    padding: 10px;
+}
+
+.demand-details-container {
+    > table td {
+        padding: .5em;
+    }
+
+    .btn-primary {
+        background-color: $card-active-button-background;
+    }
+    .btn-secondary {
+        background-color: $white-color;
+
+        &.transparent-background {
+            @include button-transparent-backgroud(rgba(0, 0, 0, 0.4));
+        }
+    }
+}
+
+.pending-spc-approval {
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    width: 100%;
+}
+
+.pending-spc-approval-list {
+    width: 100%;
+    height: 35%;
+    padding: 1px;
+
+    & table {
+        border-collapse: collapse;
+
+        & th {
+            text-align: left;
+            font-size: small;
+            font-weight: bold;
+        }
+
+        & td {
+            text-align: left;
+            font-size: small;
+            border: 1px solid $cell-border;
+            padding: 6px !important;
+        }
+    }
+}
+
+.pending-reservation-cancel-assignment {
+    color: $small-text-color;
+}
+
+.powerlist-container {
+    padding: 25px;
+}
+
+.powerlist-container>div>.center-block, .powerlist-container>div>.center-block>ul>li {
+    padding: 0 15px;
+}
+
+.powerlist-container> .center-block> ul {
+    margin-left: 25px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.powerlist-container>div> ul {
+    margin-top: 0;
+    border: 0px;
+}
+
+.powerlist-filter-dropdown {
+    display: block;
+}
+
+.demand-selection-button {
+    width: 100%;
+    border: 1px solid;
+    border-color: $card-form-control-border-color;
+    background-color: $card-form-background;
+    height: 35px;
+}
+
+.demand-selection-button-icon {
+    float: right;
+}
+
+.power-summary {
+    background-color: $white-color; 
+    padding: 8px;
+}
+
+.ups-list {
+    margin-bottom: 15px;
+}
+
+.ups-block {
+    height: 70px;
+    width: 70px;
+    padding: 6px;
+    text-align: center;
+    line-height: 16px;
+}
+.ups-block-label {
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.ups-block-name {
+    color: white;
+    font-size: 32px;
+}
+
+.ups-block > p, .ups-details >p  {
+    padding: 0;
+}
+.ups-details {
+    line-height: 8px; 
+    padding: 4px 0 0 8px;
+}
+
+.ups-details> p {
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.ups-details-right-icon {
+    padding: 24px 0 0 8px;
+}
+
+.normal {
+    background-color: $default-state;
+}
+
+.critical {
+    background-color: $critical-background;
+}
+
+.near-critical {
+    background-color: $near-critical-background;
+}
+
+.normal-details {
+    color: $default-state;
+}
+
+.critical-details {
+    color: $critical-background;
+}
+
+.near-critical-details {
+    color: $near-critical-background;
+}
+
+.power-bus-summary {
+    font-weight: bold;
+}
+.powerlist-details-title {
+    padding-top: 4px; 
+    font-size: 12px;
+}
+

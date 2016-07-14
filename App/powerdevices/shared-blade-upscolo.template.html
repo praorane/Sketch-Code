@@ -1,0 +1,93 @@
+﻿<div ng-controller="PowerListController as powerListControl" class="powerlist-container">
+    <div ng-if="!powerListControl.isPowerDetailsVisible">
+        <div class="dropdown width-100 dropdown-overlay">
+            <button id="btn-append-to-body" class="btn btn-dropdown dropdown-toggle width-100 container-fluid" type="button" data-toggle="dropdown"
+                    role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="float-left">{{powerListControl.selectedPowerLevel.name}}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="btn-append-to-body">
+                <li role="menuitem" ng-repeat="powerLevel in powerListControl.powerLevels" data-ng-click="powerListControl.selectedPowerLevel = powerLevel" class="container-fluid">
+                    <a href="#">
+                        {{powerLevel.name}}
+                    </a>
+                </li>
+            </ul>
+        </div><br /><br />
+        <div class="row power-summary">
+            <div class="cursor-pointer row container-fluid ups-list" ng-repeat="powerSupply in powerListControl.powerSupplyList | filter: powerListControl.powerLevelFilter" ng-click="powerListControl.showPowerDetails(powerSupply)">
+                <div class="col-xs-6 ups-block" ng-class="{'normal': powerSupply.powerLevel === 'NORMAL', 
+                                                             'critical': powerSupply.powerLevel === 'CRITICAL', 
+                                                             'near-critical': powerSupply.powerLevel === 'NEARCRIT'}">
+                    <p class="ups-block-label">{{powerSupply.powerLevel}}</p>
+                    <p class="ups-block-name">{{powerSupply.name}}</p>
+                </div>
+                <div class="col-xs-8 ups-details">
+                    <p ng-class="{'normal-details': powerSupply.powerLevel === 'NORMAL', 
+                                    'critical-details': powerSupply.powerLevel === 'CRITICAL', 
+                                    'near-critical-details': powerSupply.powerLevel === 'NEARCRIT'}"}">
+                        TOTAL USED : {{powerSupply.totalPowerUsed}}
+                    </p>
+                    <p>PRELIM : {{powerSupply.prelim}}</p>
+                    <p>FINAL : {{powerSupply.final}}</p>
+                    <p>DEPLOYED : {{powerSupply.deployed}}</p>
+                </div>
+                <div class="col-xs-8 ups-details">
+                    <p>MAX : {{powerSupply.max}}</p>
+                    <p>MAX CRITICAL : {{powerSupply.maxCritical}}</p>
+                    <p ng-class="{'normal-details': powerSupply.powerLevel === 'NORMAL', 
+                                    'critical-details': powerSupply.powerLevel === 'CRITICAL', 
+                                    'near-critical-details': powerSupply.powerLevel === 'NEARCRIT'}"}">
+                        AVAIALABLE : {{powerSupply.available}}
+                    </p>
+                </div>
+                <div class="col-xs-2 ups-details-right-icon">
+                    <span class="glyph glyph-chevron-right"></span>
+                </div>
+            </div><br />
+            <div class="row power-bus-summary" ng-repeat="lineItem in powerListControl.powerSummary">
+                <div class="col-xs-12">{{lineItem.description}}</div>
+                <div class="col-xs-12">: &nbsp;{{lineItem.value}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-24" ng-if="powerListControl.isPowerDetailsVisible">
+        <div ng-click="powerListControl.showPowerDetails(powerSupply)" class="hyperlink-text cursor-pointer">
+            <i class="glyph glyph-arrow-left"></i>&nbsp;
+            <span> Back to UPS list </span>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="line-height:10px;">
+                <p><b>UPS{{powerListControl.selectedPowerSupply.name}}</b></p>
+                <p class="powerlist-details-title">UPS</p>
+                <p><b>{{powerListControl.selectedPowerSupply.totalPowerUsed}}</b></p>
+                <p class="powerlist-details-title">RESERVED</p>
+                <p><b>{{powerListControl.selectedPowerSupply.max}}</b></p>
+                <p class="powerlist-details-title">MAX LOAD</p>
+            </div>
+            <div class="col-xs-12">
+                <p ng-class="{'normal-details': powerListControl.selectedPowerSupply.powerLevel === 'NORMAL',
+                                'critical-details': powerListControl.selectedPowerSupply.powerLevel === 'CRITICAL',
+                                'near-critical-details': powerListControl.selectedPowerSupply.powerLevel === 'NEARCRIT'}"}">
+                    <b>{{powerListControl.selectedPowerSupply.powerLevel}}</b>
+                </p>
+                <p class="powerlist-details-title">STATUS</p>
+                <p ng-class="{'normal-details': powerListControl.selectedPowerSupply.powerLevel === 'NORMAL',
+                                'critical-details': powerListControl.selectedPowerSupply.powerLevel === 'CRITICAL',
+                                'near-critical-details': powerListControl.selectedPowerSupply.powerLevel === 'NEARCRIT'}" }">
+                    <b>{{powerListControl.selectedPowerSupply.available}}</b>
+                </p>
+                <p class="powerlist-details-title">AVAILABLE</p>
+                <p><b>{{powerListControl.selectedPowerSupply.zones}}</b></p>
+                <p class="powerlist-details-title">POWERED ZONES</p>
+            </div>
+        </div>
+        <div class="hyperlink-text cursor-pointer">
+            <p>
+                <span>View More</span>&nbsp;
+                <i class="glyph glyph-chevron-down"></i>
+            </p>
+        </div>
+    </div>
+</div>
+

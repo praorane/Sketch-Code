@@ -1,0 +1,35 @@
+﻿﻿<div class="metro-datacenter-container height-100"
+      ng-init="metroControl.getDataCenterAndColos()"
+      ng-controller="SharedBladeMetroDataCenterController as metroControl">
+    <br />
+    <div class="text-field-container m-h-xxxs">
+        <input type="text" 
+               placeholder="Data Center" 
+               ng-model="metroControl.selectedDataCenterName"
+               uib-typeahead="::dataCenterAndColo as ::dataCenterAndColo.DataCenter.name for dataCenterAndColo in ::metroControl.dataCenterAndColos | filter:$viewValue" 
+               class="form-control"
+               typeahead-min-length="0"
+               typeahead-select-on-exact="true">
+    </div>
+    <div class="text-field-container m-h-xxxs">
+        <input type="text"
+               placeholder="Colo/Room"
+               ng-model="metroControl.selectedColoRoomName"
+               uib-typeahead="coloRoom as coloRoom.Name for coloRoom in metroControl.selectedDataCenterAndColo.Colocations | filter:$viewValue"
+               class="form-control"
+               ng-disabled="!metroControl.isDataCenterValid"
+               typeahead-min-length="0">
+    </div>
+    <div class="btn-group p-l-xxxs">
+        <input type="button" class="btn btn-primary"
+             ng-click="metroControl.onSelectDataCenterAndColo()"
+             ng-disabled="!metroControl.isColoValid"
+             value="Apply"/>
+        <input type="button" class="btn btn-secondary"
+             ng-click="metroControl.resetSelection()" 
+             value="Clear"/>
+    </div>
+</div>
+
+
+
