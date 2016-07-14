@@ -1,0 +1,79 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Facility Planner</title>
+
+    <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
+    <link href="~/Content/winstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        var idaLoginUrl = '@HttpContext.Current.Application["idaLoginUrl"]';
+        var idaTenant = '@HttpContext.Current.Application["idaTenant"]';
+        var idaClientId = '@HttpContext.Current.Application["idaClientId"]';
+
+        var urlSketchServer = '@HttpContext.Current.Application["urlSketchServer"]';
+    </script>
+</head>
+<body data-ng-app="SketchSvg" ng-controller="AppController as vm"ng-cloak>
+    <div id="pageContent" class="container-widthheight100 position-absolute" >
+        <div ui-view></div>
+    </div>
+
+    <!-- Jquery includes -->
+    <script src="~/Scripts/jquery-2.2.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Angular includes -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-ui-router.min.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    <script src="~/Scripts/adal-1.0.8.js"></script>
+    <script src="~/Scripts/adal-angular-1.0.8.js"></script>
+
+    <!-- App includes -->
+   
+    <script src="~/Scripts/gen/datamodel/caching.decorator.js"></script>
+    <script src="~/Scripts/gen/utilities/capabilities.js"></script>
+    <script src="~/Scripts/gen/defs/service-objects.js"></script>
+    <script src="~/Scripts/gen/utilities/utilities.js"></script>
+    <script src="~/Scripts/gen/utilities/device-helper.js"></script>
+    <script src="~/Scripts/gen/datamodel/app.model.js"></script>
+    <script src="~/Scripts/gen/components/feedback/planning-feedback.controller.js"></script>
+    <script src="~/Scripts/gen/components/notification/notification.controller.js"></script>
+    <script src="~/Scripts/gen/components/notification/notification.directive.js"></script>
+    <script src="~/Scripts/gen/components/sharedblade/shared-blade.directive.js"></script>
+    <script src="~/Scripts/gen/components/sharedblade/shared-blade-content.directive.js"></script>
+    <script src="~/Scripts/gen/dcpicker/shared-blade-metro-data-center.controller.js"></script>    
+    <script src="~/Scripts/gen/mapview/layout-view.directive.js"></script>
+    <script src="~/Scripts/gen/mapview/map-view.directive.js"></script>
+    <script src="~/Scripts/gen/mapview/colocation-map.directive.js"></script>
+    <script src="~/Scripts/gen/mapview/map-portal-view.directive.js"></script>
+    <script src="~/Scripts/gen/pendingtasks/shared-blade-pending-actions.controller.js"></script>
+    <script src="~/Scripts/gen/pendingtasks/shared-blade-pending-actions.directive.js"></script>
+    <script src="~/Scripts/gen/planning/planning.controller.js"></script>
+    <script src="~/Scripts/gen/powerdevices/power-list.controller.js"></script>
+    <script src="~/Scripts/gen/datamodel/data-model.service.js"></script>
+    <script src="~/Scripts/gen/datamodel/data-load-state.service.js"></script>
+    <script src="~/Scripts/gen/datamodel/datafetcher-factories.js"></script>
+    <script src="~/Scripts/gen/reservation/tile-selector.directive.js"></script>
+    <script src="~/Scripts/gen/services/rack-detail.service.js"></script>
+    <script src="~/Scripts/gen/services/basic-layout.service.js"></script>
+    <script src="~/Scripts/gen/services/reservation-detail.service.js"></script>
+    <script src="~/Scripts/gen/services/notification.service.js"></script>
+    <script src="~/Scripts/gen/app.js"></script>
+    
+      
+
+</body>
+</html>
